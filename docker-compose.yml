@@ -19,6 +19,7 @@ services:
       dockerfile: PHP.Dockerfile
     volumes:
       - ./app:/app
+    container_name: php-env
 
   mysql:
     image: mysql
