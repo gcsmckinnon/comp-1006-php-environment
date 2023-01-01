@@ -1,0 +1,36 @@
+version: '3.7'
+services: 
+  web:
+    image: nginx:latest
+    ports:
+      - 8008:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./app:/app
+    expose:
+      - "80"
+    restart: always
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: .
+      dockerfile: PHP.Dockerfile
+    volumes:
+      - ./app:/app
+
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_USER: "development"
+      MYSQL_PASSWORD: "password"
+      MYSQL_DATABASE: "test"
+    volumes:
+      - mysqldata:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+volumes:
+  mysqldata: {}
